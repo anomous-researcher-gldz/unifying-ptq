@@ -1,0 +1,111 @@
+name: test_MambaQuant_x3
+model_type: MambaQuantModel
+scale: 3
+num_gpu: 1
+manual_seed: 3407
+gpu: 0
+
+bit: 4
+prune_keep_frac: 0.6
+cali_data: keydata/cali_data_x3.pth
+quant:
+  hook_per_layer: True
+  hook_per_block: False
+  qkv_separation: True
+  awe: True
+
+better: True
+
+# dataset and data loader settings
+datasets:
+  test_1:
+    task: SR
+    name: Set5
+    type: PairedImageDataset
+    dataroot_gt: datasets/benchmark/Set5/HR
+    dataroot_lq: datasets/benchmark/Set5/LR_bicubic/X3
+    filename_tmpl: '{}x3'
+    io_backend:
+      type: disk
+  test_2:
+    task: SR
+    name: Set14
+    type: PairedImageDataset
+    dataroot_gt: datasets/benchmark/Set14/HR
+    dataroot_lq: datasets/benchmark/Set14/LR_bicubic/X3
+    filename_tmpl: '{}x3'
+    io_backend:
+      type: disk
+  test_3:
+    task: SR
+    name: B100
+    type: PairedImageDataset
+    dataroot_gt: datasets/benchmark/B100/HR
+    dataroot_lq: datasets/benchmark/B100/LR_bicubic/X3
+    filename_tmpl: '{}x3'
+    io_backend:
+      type: disk
+  test_4:
+    task: SR
+    name: Urban100
+    type: PairedImageDataset
+    dataroot_gt: datasets/benchmark/Urban100/HR
+    dataroot_lq: datasets/benchmark/Urban100/LR_bicubic/X3
+    filename_tmpl: '{}x3'
+    io_backend:
+      type: disk
+  test_5:
+    task: SR
+    name: Manga109
+    type: PairedImageDataset
+    dataroot_gt: datasets/benchmark/Manga109/HR
+    dataroot_lq: datasets/benchmark/Manga109/LR_bicubic/X3
+    filename_tmpl: '{}_LRBI_x3'
+    io_backend:
+      type: disk
+
+# network structure (MambaIRv2 Light, same as train)
+network_Q:
+  type: MambaIRv2Light
+  upscale: 3
+  img_size: 64
+  window_size: 16
+  img_range: 1.
+  embed_dim: 48
+  d_state: 8
+  depths: [5, 5, 5, 5]
+  num_heads: [4, 4, 4, 4]
+  inner_rank: 32
+  num_tokens: 64
+  convffn_kernel_size: 5
+  mlp_ratio: 1.
+  upsampler: pixelshuffledirect
+
+# paths
+# FP baseline (same as training)
+pathFP:
+  pretrain_network_FP: experiments/pretrained_models/Mamba/mambairv2_lightSR_x3.pth
+  strict_load_FP: true
+
+# Quantized model checkpoint to evaluate
+path:
+  pretrain_network_Q: experiments/MambaQuant/MambaQuant_light_x3.pth  # <- put your trained quant ckpt here
+  strict_load_Q: true
+
+# validation / testing settings
+val:
+  save_img: true
+  suffix: ~              # if None, use exp name
+  selfensemble_testing: false
+  patchwise_testing: false
+  fp_test: true          # also run FP model for comparison
+
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 3
+      test_y_channel: true
+    ssim:
+      type: calculate_ssim
+      crop_border: 3
+      test_y_channel: true

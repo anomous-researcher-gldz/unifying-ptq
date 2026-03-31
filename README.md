@@ -231,5 +231,5 @@ See `CompSRT/README.md` for Docker/Singularity setup and statistical analysis sc
 
 ## Acknowledgments
 
-This work builds upon [PTQ4SAM](https://github.com/chengtao-lv/PTQ4SAM), [FlatQuant](https://github.com/ruikangliu/FlatQuant), [CompSRT/2DQuant](https://github.com/anonymous-researcher-99/CompSRT), and [BasicSR](https://github.com/XPixelGroup/BasicSR).
+This work builds upon [PTQ4SAM](https://github.com/chengtao-lv/PTQ4SAM), [FlatQuant](https://github.com/ruikangliu/FlatQuant), [CompSRT](https://github.com/anonymous-researcher-99/CompSRT), and [BasicSR](https://github.com/XPixelGroup/BasicSR).
 

@@ -30,7 +30,8 @@ from ahcptq.quantization.quantized_module import (
     QuantizedLayer,
 )
 import sys
-sys.path.append("/home/zhang/Project/ahcptq")
+sys.path.append(os.path.dirname(__file__))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import copy
 import logging
 import torch.nn as nn
@@ -39,6 +40,8 @@ import ahcptq.model.quant_model as quant_model_sam1
 import ahcptq.model.quant_model_sam2 as quant_model_sam2
 from ahcptq.model.quant_model_sam2 import QuantSAM2MLP,QuantSAM2Attention
 from ahcptq.model.quant_model import QuantDecoderOurAttentionBlock
+from ahcptq.model.prompt_anchor import PromptAnchorBank
+from ahcptq.quantization.fake_quant import AnchorAwareFakeQuantize
 # These will be assigned in main()
 specials = quant_model_sam1.specials
 bimodal_adjust = quant_model_sam1.bimodal_adjust
@@ -232,6 +235,18 @@ def parse_args():
         default='',
         help='load_sam_path')
     
+    parser.add_argument(
+        '--load-pcsa',
+        type=str,
+        default='',
+        help='Path to a PCSA checkpoint to load (skips PCSA calibration)')
+
+    parser.add_argument(
+        '--save-pcsa',
+        type=str,
+        default='',
+        help='Path to save PCSA checkpoint after calibration')
+
     parser.add_argument(
         '--short4cut',
         action='store_true',
@@ -507,8 +522,17 @@ def main():
             # print(f"Effective model size: {model_size_mb(model):.2f} MB")
             # print(breakdown)
             # disable_all(fp_model)
-            calibrate(model, cali_data, q_config.ptq4sam.BIG)
-            
+            pcsa_loaded = False
+            if args.load_pcsa:
+                load_pcsa_checkpoint(model, args.load_pcsa)
+                pcsa_loaded = True
+
+            calibrate(model, cali_data, q_config.ptq4sam.BIG, pcsa_loaded=pcsa_loaded)
+
+            if not pcsa_loaded:
+                save_path = args.save_pcsa if args.save_pcsa else os.path.join(args.work_dir, 'pcsa_checkpoint.pt')
+                save_pcsa_checkpoint(model, save_path)
+
             if hasattr(q_config, 'recon'):
                 if rank == 0:
                     logger.info('begin to do reconstruction')
@@ -720,41 +744,85 @@ def calculate_bitwidths(model):
     # a_list[0].set_bit(32)
     avg = summed/count 
     print("average bitwidth", avg, flush=True ) 
+def save_pcsa_checkpoint(model, path):
+    """Save all PromptAnchorBank and AnchorAwareFakeQuantize state keyed by module path."""
+    state = {}
+    for name, module in model.named_modules():
+        if isinstance(module, PromptAnchorBank):
+            state[name] = {'type': 'PromptAnchorBank', 'state_dict': module.state_dict()}
+        elif isinstance(module, AnchorAwareFakeQuantize):
+            state[name] = {
+                'type': 'AnchorAwareFakeQuantize',
+                'scale': module.scale.data.clone().cpu(),
+                'zero_point': module.zero_point.clone().cpu(),
+                'num_anchors': module.num_anchors,
+            }
+    torch.save(state, path)
+    logger.info('Saved PCSA checkpoint to {} ({} modules)'.format(path, len(state)))
+
+
+def load_pcsa_checkpoint(model, path):
+    """Load PromptAnchorBank and AnchorAwareFakeQuantize state from a PCSA checkpoint."""
+    state = torch.load(path, map_location='cpu')
+    loaded = 0
+    for name, module in model.named_modules():
+        if name not in state:
+            continue
+        entry = state[name]
+        if isinstance(module, PromptAnchorBank) and entry['type'] == 'PromptAnchorBank':
+            module.load_state_dict(entry['state_dict'])
+            loaded += 1
+        elif isinstance(module, AnchorAwareFakeQuantize) and entry['type'] == 'AnchorAwareFakeQuantize':
+            saved_scale = entry['scale'].to(module.scale.device)
+            saved_zp = entry['zero_point'].to(module.zero_point.device)
+            module.scale = torch.nn.Parameter(saved_scale)
+            module.zero_point = saved_zp
+            loaded += 1
+    logger.info('Loaded PCSA checkpoint from {} ({}/{} modules matched)'.format(path, loaded, len(state)))
+
+
 @torch.no_grad()
-def calibrate(model, cali_data, BIG): 
+def calibrate(model, cali_data, BIG, pcsa_loaded=False):
     st = time.time()
-    if BIG:
+    if BIG and not pcsa_loaded:
         model.extract_feat(cali_data[0])
         bimodal_adjust(model, logger=logger)
     enable_calibration_woquantization(model, quantizer_type='act_fake_quant')
+
+    if pcsa_loaded:
+        # Disable observers on AnchorAwareFakeQuantize so loaded scales are preserved
+        for name, module in model.named_modules():
+            if isinstance(module, AnchorAwareFakeQuantize):
+                module.observer_enabled = 0
+        logger.info('PCSA loaded from checkpoint -- freezing anchor-aware quantizers during activation calibration')
 
     for i in range(len(cali_data)):
         model.extract_feat(cali_data[i]) #HERE IS WHERE TO DO TIME EVALS
     # model.extract_feat(cali_data[0])
     rank, world_size = get_dist_info()
-    observer = False 
+    observer = False
     if world_size!=1:
         for name, module in model.named_modules():
             if isinstance(module, ObserverBase):
-                observer=True 
+                observer=True
                 module.min_val.data /= world_size
                 module.max_val.data /= world_size
                 dist.all_reduce(module.min_val.data)
                 dist.all_reduce(module.max_val.data)
-        if not observer: 
+        if not observer:
             for name, module in model.predictor.model.named_modules():
                 if isinstance(module, ObserverBase):
-                    observer=True 
+                    observer=True
                     module.min_val.data /= world_size
                     module.max_val.data /= world_size
                     dist.all_reduce(module.min_val.data)
                     dist.all_reduce(module.max_val.data)
 
-    
-    enable_calibration_woquantization(model, quantizer_type='weight_fake_quant')  
+    enable_calibration_woquantization(model, quantizer_type='weight_fake_quant')
     model.extract_feat(cali_data[0])
-    
+
     ed = time.time()
+    rank, _ = get_dist_info()
     if rank == 0:
         logger.info('the calibration time is {}'.format(ed - st))
 

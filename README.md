@@ -268,5 +268,5 @@ See `CompSRT/README.md` for Docker/Singularity setup and statistical analysis sc
 
 ## Acknowledgments
 
-This work builds upon [AHCPTQ](https://github.com/Keio-CSG/AHCPTQ), [FlatQuant](https://github.com/ruikangliu/FlatQuant), and [CompSRT](https://github.com/anonymous-researcher-99/CompSRT)).
+This work builds upon [AHCPTQ](https://github.com/Keio-CSG/AHCPTQ), [FlatQuant](https://github.com/ruikangliu/FlatQuant), and [CompSRT](https://github.com/anonymous-researcher-99/CompSRT).
 

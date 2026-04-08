@@ -130,11 +130,13 @@ class FlatQuantLlamaAttention(LlamaAttention):
                                         sym=not(args.v_asym), lac=args.lac, groupsize=-1, )
 
         # PCSA: anchor-aware quantizer for q_proj
-        self.prompt_bank = PromptBank(num_anchors=8, descriptor_dim=self.config.hidden_size)
-        self.q_proj.act_quantizer = AnchorAwareActivationQuantizer(
-            bits=args.a_bits, sym=not(args.a_asym), lac=args.lac,
-            groupsize=args.a_groupsize, num_anchors=8,
-        )
+        self._disable_pcsa = getattr(args, 'disable_pcsa', False)
+        if not self._disable_pcsa:
+            self.prompt_bank = PromptBank(num_anchors=8, descriptor_dim=self.config.hidden_size)
+            self.q_proj.act_quantizer = AnchorAwareActivationQuantizer(
+                bits=args.a_bits, sym=not(args.a_asym), lac=args.lac,
+                groupsize=args.a_groupsize, num_anchors=8,
+            )
 
         # DBAF: set fold alpha on all projections (None disables DBAF)
         _dbaf_alpha = None if getattr(args, 'disable_dbaf', False) else 0.99
@@ -171,14 +173,16 @@ class FlatQuantLlamaAttention(LlamaAttention):
             self.vcache_trans = None
 
     def _trans_forward_after_ln(self, hidden_states):
-        # PCSA: compute descriptor and assign anchor
-        desc = hidden_states.mean(dim=1)  # [B, D]
-        desc = desc / (desc.norm(dim=-1, keepdim=True) + 1e-6)
-        anchor_ids = self.prompt_bank.assign(desc, update=not self._eval_mode)
+        anchor_ids = None
+        if not self._disable_pcsa:
+            # PCSA: compute descriptor and assign anchor
+            desc = hidden_states.mean(dim=1)  # [B, D]
+            desc = desc / (desc.norm(dim=-1, keepdim=True) + 1e-6)
+            anchor_ids = self.prompt_bank.assign(desc, update=not self._eval_mode)
 
         if self.ln_trans is not None:
             hidden_states = self.ln_trans(hidden_states)
-        # q_proj uses PCSA (anchor_id); k/v use DBAF only (no anchor_id)
+        # q_proj uses PCSA (anchor_id) if enabled; k/v use DBAF only (no anchor_id)
         query_states = self.q_proj(hidden_states, qa_trans=self.ln_trans, anchor_id=anchor_ids)
         key_states = self.k_proj(hidden_states, qa_trans=self.ln_trans)
         if self.args.separate_vtrans:

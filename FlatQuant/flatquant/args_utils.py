@@ -98,6 +98,8 @@ def parser_gen():
                         help="Disable the integration of the vtrans transformation.")
     parser.add_argument("--disable_dbaf", default=False, action="store_true",
                         help="Disable DBAF fold/unfold for ablation experiments.")
+    parser.add_argument("--disable_pcsa", default=False, action="store_true",
+                        help="Disable PCSA (Prompt-Conditioned Scale Anchoring) for ablation experiments.")
     
     # KV-Cache Quantization Arguments
     parser.add_argument('--q_bits', type=int, default=16,

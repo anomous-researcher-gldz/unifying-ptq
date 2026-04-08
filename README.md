@@ -98,78 +98,115 @@ python ahcptq/solver/test_quant.py \
 
 ## 2. FlatQuant — Large Language Models (LLM)
 
-### 2.1 Environment Setup
+### 2.1 Installation
 
 ```bash
-cd FlatQuant
-
-# Create environment
-python -m venv venv_flatquant
-source venv_flatquant/bin/activate
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-pip install -r requirements.txt
-
-# Install FlatQuant
-pip install -e .
-
-# Compile CUDA extensions (for real INT4 deployment)
-cd third-party/fast-hadamard-transform
-pip install -e .
-cd ../..
-python setup.py install
+conda create -n flatquant python=3.10 -y
+conda activate flatquant
+pip install -r requirements.txt && pip install -e . 
+pip install flash-attn --no-build-isolation
 ```
 
-### 2.2 Download Models
+**Note:** - To run models like LLaMA2 and LLaMA3, please install dependencies from `requirements_llama2.txt`.
 
-Download models from HuggingFace to `modelzoo/`:
+### 2.2 Data Preparation
 
-```bash
-huggingface-cli download meta-llama/Meta-Llama-3-8B \
-  --local-dir ./modelzoo/meta-llama/Meta-Llama-3-8B
-```
+Download datasets in `./datasets`.
 
-Supported models: LLaMA-2 (7B/13B/70B), LLaMA-3 (8B/70B), LLaMA-3.1 (8B/70B), Qwen-2.5 (7B/32B).
+**Calibration set or PPL evaluation**
 
-### 2.3 Download Datasets
+| Dataset   | Local Dir                  | URL                                                                                                                        |
+| --------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| WikiText2 | ./datasets/wikitext        | [https://huggingface.co/datasets/wikitext](https://huggingface.co/datasets/wikitext)                                       |
+| C4        | ./datasets/allenai/c4      | [https://huggingface.co/datasets/allenai/c4](https://huggingface.co/datasets/allenai/c4)                                   |
+| Pile      | ./datasets/pile-val-backup | [https://huggingface.co/datasets/mit-han-lab/pile-val-backup](https://huggingface.co/datasets/mit-han-lab/pile-val-backup) |
 
-```bash
-# Calibration + PPL eval
-huggingface-cli download wikitext --repo-type dataset --local-dir ./datasets/wikitext
-huggingface-cli download allenai/c4 en/c4-train.00000-of-01024.json.gz en/c4-validation.00000-of-00008.json.gz --repo-type dataset --local-dir ./datasets/allenai/c4
-```
+**Commonsense QA evaluation**
+
+For QA evaluation, we use local config files to specify the paths to local datasets. First, copy the dataset config files under `~/anaconda3/envs/flatquant/lib/python3.10/site-packages/lm_eval/tasks` to `./datasets/lm_eval_configs/tasks`. Next, modify the config item `dataset_path` in each QA dataset's config file to the local directory listed in the following table.
+
+| Dataset         | Local Dir                 | URL                                                                                                                    |
+| --------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| ARC-E and ARC-C | ./datasets/ai2_arc        | [https://huggingface.co/datasets/allenai/ai2_arc](https://huggingface.co/datasets/allenai/ai2_arc)                     |
+| HellaSwag       | ./datasets/hellaswag      | [https://huggingface.co/datasets/Rowan/hellaswag](https://huggingface.co/datasets/Rowan/hellaswag)                     |
+| LAMBADA         | ./datasets/lambada_openai | [https://huggingface.co/datasets/EleutherAI/lambada_openai](https://huggingface.co/datasets/EleutherAI/lambada_openai) |
+| PIQA            | ./datasets/piqa           | [https://huggingface.co/datasets/ybisk/piqa](https://huggingface.co/datasets/ybisk/piqa)                               |
+| WinoGrande      | ./datasets/winogrande     | [https://huggingface.co/datasets/winogrande](https://huggingface.co/datasets/winogrande)                               |
+
+### 2.3 Model Preparation
+
+Download models in `./modelzoo`.
+
+| Model       | Local Dir                      | URL                                                                                                      |
+| ----------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| LLaMA-2-7B  | ./modelzoo/meta-llama/Llama-2-7b-hf  | [https://huggingface.co/meta-llama/Llama-2-7b-hf](https://huggingface.co/meta-llama/Llama-2-7b-hf)             |
+| LLaMA-2-13B | ./modelzoo/meta-llama/Llama-2-13b-hf | [https://huggingface.co/meta-llama/Llama-2-13b-hf](https://huggingface.co/meta-llama/Llama-2-13b-hf)           |
+| LLaMA-2-70B | ./modelzoo/meta-llama/Llama-2-70b-hf | [https://huggingface.co/meta-llama/Llama-2-70b-hf](https://huggingface.co/meta-llama/Llama-2-70b-hf)           |
+| LLaMA-3-8B  | ./modelzoo/meta-llama/Meta-Llama-3-8B  | [https://huggingface.co/meta-llama/Meta-Llama-3-8B](https://huggingface.co/meta-llama/Meta-Llama-3-8B)   |
+| LLaMA-3-70B | ./modelzoo/meta-llama/Meta-Llama-3-70B | [https://huggingface.co/meta-llama/Meta-Llama-3-70B](https://huggingface.co/meta-llama/Meta-Llama-3-70B) |
+| LLaMA-3-8B-Ins | ./modelzoo/meta-llama/Meta-Llama-3-8B-Instruct | [https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) |
+| LLaMA-3-70B-Ins | ./modelzoo/meta-llama/Meta-Llama-3-70B-Instruct | [https://huggingface.co/meta-llama/Meta-Llama-3-70B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-70B-Instruct) |
+| LLaMA-3.1-8B | ./modelzoo/meta-llama/Llama-3.1-8B | [https://huggingface.co/meta-llama/Llama-3.1-8B](https://huggingface.co/meta-llama/Llama-3.1-8B) |
+| LLaMA-3.1-70B | ./modelzoo/meta-llama/Llama-3.1-70B | [https://huggingface.co/meta-llama/Llama-3.1-70B](https://huggingface.co/meta-llama/Llama-3.1-70B) |
+| LLaMA-3.1-8B-Ins | ./modelzoo/meta-llama/Llama-3.1-8B-Instruct | [https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) |
+| LLaMA-3.1-70B-Ins | ./modelzoo/meta-llama/Llama-3.1-70B-Instruct | [https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct) |
+| LLaMA-3.3-70B-Ins | ./modelzoo/meta-llama/Llama-3.3-70B-Instruct | [https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct](https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct) |
+| Qwen2.5-7B-Ins | ./modelzoo/Qwen/Qwen2.5-7B-Instruct | [https://huggingface.co/Qwen/Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) |
+| Qwen2.5-32B-Ins | ./modelzoo/Qwen/Qwen2.5-32B-Instruct | [https://huggingface.co/Qwen/Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct) |
 
 ### 2.4 Run Experiments
 
-W4A4KV4 calibration + evaluation:
+We provide full script to run FlatQuant in `./scripts/`. We use LLaMa-3-8B as an example here:
+
+1. Weight-Activation-KV Cache Quantization
 
 ```bash
+# W4A4KV4
 python ./main.py \
-  --model ./modelzoo/meta-llama/Meta-Llama-3-8B \
-  --w_bits 4 --a_bits 4 \
-  --k_bits 4 --k_asym --k_groupsize 128 \
-  --v_bits 4 --v_asym --v_groupsize 128 \
-  --cali_bsz 4 --epoch 15 --flat_lr 5e-3 \
-  --lwc --lac --cali_trans --add_diag \
-  --output_dir ./outputs --save_matrix \
-  --lm_eval --lm_eval_batch_size 16 \
-  --tasks arc_challenge arc_easy hellaswag lambada_openai piqa winogrande
+    --model ./modelzoo/meta-llama/Meta-Llama-3-8B\
+    --w_bits 4 --a_bits 4 \
+    --k_bits 4 --k_asym --k_groupsize 128 \
+    --v_bits 4 --v_asym --v_groupsize 128 \
+    --cali_bsz 4 --epoch 15 --flat_lr 5e-3 \
+    --lwc --lac --cali_trans --add_diag \
+    --output_dir ./outputs --save_matrix \
+    --lm_eval --lm_eval_batch_size 16
 ```
 
-Reload saved matrices for evaluation only:
+2. Weight-Only Quantization
+
+```bash
+# W4A16
+python ./main.py \
+    --model ./modelzoo/meta-llama/Meta-Llama-3-8B \
+    --w_bits 4 \
+    --cali_bsz 4 --epoch 15 --flat_lr 5e-3 \
+    --lwc --lac --cali_trans --add_diag \
+    --output_dir ./outputs --exp_name wonly --save_matrix \
+    --lm_eval --lm_eval_batch_size 16
+```
+
+3. Reproduce Evaluation Results of Our Paper
+   
+   1\) Download the pretrained FlatQuant parameters you want through [Model Zoo](FlatQuant/README.md#model-zoo).
+   
+   2\) Inference with `--reload_matrix` and `--matrix_path PATH_TO_XXX`, take LLaMa-3-8B with W4A4KV4 quantization as an example:
 
 ```bash
 python ./main.py \
-  --model ./modelzoo/meta-llama/Meta-Llama-3-8B \
-  --w_bits 4 --a_bits 4 \
-  --k_bits 4 --k_asym --k_groupsize 128 \
-  --v_bits 4 --v_asym --v_groupsize 128 \
-  --lwc --lac --add_diag \
-  --reload_matrix --matrix_path ./outputs/Meta-Llama-3-8B/w4a4/exp \
-  --lm_eval --lm_eval_batch_size 16 \
-  --tasks arc_challenge arc_easy hellaswag lambada_openai piqa winogrande
+    --model ./modelzoo/meta-llama/Meta-Llama-3-8B \
+    --w_bits 4 --a_bits 4 \
+    --k_bits 4 --k_asym --k_groupsize 128 \
+    --v_bits 4 --v_asym --v_groupsize 128 \
+    --cali_bsz 4 --epoch 15 --flat_lr 5e-3 \
+    --lwc --lac --cali_trans --add_diag \
+    --output_dir ./outputs --save_matrix \
+    --lm_eval --lm_eval_batch_size 16 \
+    --reload_matrix --matrix_path PATH_TO_XXX 
 ```
 
 Use `--disable_dbaf` to run ablation experiments without DBAF.
+Use `--disable_pcsa` to run ablation experiments without PCSA.
 
 ---
 

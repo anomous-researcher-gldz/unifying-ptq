@@ -1,0 +1,10 @@
+{
+  "model": "SAM-H",
+  "method": "RTN",
+  "bits": 4,
+  "detector": "torchvision-fasterrcnn-r50-fpn",
+  "n_images": 500,
+  "n_predictions": 4360,
+  "segm_mAP": 0.07989523570202667,
+  "wallclock_seconds": 258.5682008266449
+}

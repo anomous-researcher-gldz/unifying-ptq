@@ -45,19 +45,21 @@ to Qwen's RMSNorm + GQA differences vs LLaMA). Honest treatment: report
 RTN+DBAF as the cross-model evidence; flag Qwen GPTQ/AWQ-style as
 out-of-scope in Limitations.
 
-### SAM-B + Faster-RCNN W4A4 (training-free, 500 COCO val images)
+### SAM training-free with Faster-RCNN detector (W4, 500 COCO val2017 images)
 
-| Method | mAP | +DBAF mAP | DBAF Δ |
+mAP values shown ×100 per COCO convention.
+
+| Model | RTN | RTN+DBAF | DBAF Δ |
 |---|---|---|---|
-| **RTN (per-channel)** | **0.060** | **0.069** | **+0.009 (+14%)** |
+| **SAM-B** | **6.03** | **6.87** | **+0.84 (+13.9%)** |
+| SAM-L | 7.71 | 7.82 | +0.11 (+1.4%) |
+| SAM-H | 7.99 | 8.15 | +0.16 (+2.0%) |
 
 Detector: torchvision Faster-RCNN-R50-FPN (not YOLOX; absolute mAP lower
 than AHCPTQ's 13.4 because of detector + no reconstruction).
-**Relative gain from DBAF is +14% — same magnitude as LLaMA's −14% PPL.**
-
-### SAM-L and SAM-H training-free (in progress)
-
-(running S4_9_sam_all.sh on 500 val images for B/L/H)
+DBAF gain is largest on SAM-B (smallest model, most damaged by W4) and
+smaller on SAM-L/H, consistent with the "DBAF helps most where outliers
+dominate damage" interpretation.
 
 ### SwinIR ×2 W4 (training-free)
 

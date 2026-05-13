@@ -38,9 +38,18 @@ from flatquant.baselines.rtn import _quantize_tensor_uniform, _quantize_per_chan
 COCO_ROOT = "/home/ubuntu/unifying-ptq/data/coco"
 
 
-def load_sam(model_type: str = "vit_b", checkpoint: str = "/home/ubuntu/unifying-ptq/ckpt/sam_vit_b_01ec64.pth"):
-    """Load SAM from the vendored segment_anything package (mmdet-free)."""
+def load_sam(model_type: str = "vit_b", checkpoint: str = None):
+    """Load SAM from the vendored segment_anything package (mmdet-free).
+    model_type: 'vit_b' | 'vit_l' | 'vit_h'.
+    """
     from segment_anything import sam_model_registry, SamPredictor
+    if checkpoint is None:
+        default = {
+            "vit_b": "/home/ubuntu/unifying-ptq/ckpt/sam_vit_b_01ec64.pth",
+            "vit_l": "/home/ubuntu/unifying-ptq/ckpt/sam_vit_l_0b3195.pth",
+            "vit_h": "/home/ubuntu/unifying-ptq/ckpt/sam_vit_h_4b8939.pth",
+        }
+        checkpoint = default[model_type]
     sam = sam_model_registry[model_type](checkpoint=checkpoint)
     sam.eval().cuda()
     return SamPredictor(sam), sam
@@ -102,8 +111,8 @@ COCO80_TO_COCO91 = [
 
 
 def evaluate(args):
-    print(f"[eval] loading SAM-B + Faster-RCNN", flush=True)
-    predictor, sam = load_sam("vit_b", args.sam_ckpt)
+    print(f"[eval] loading SAM-{args.model_type[-1].upper()} + Faster-RCNN", flush=True)
+    predictor, sam = load_sam(args.model_type, args.sam_ckpt)
     sam = quantize_sam_encoder(sam, bits=args.bits, use_dbaf=args.use_dbaf, alpha=args.alpha)
     detector, det_transforms = load_detector()
 
@@ -157,7 +166,7 @@ def evaluate(args):
         ap = float(ev.stats[0])
 
     out = {
-        "model": "SAM-B",
+        "model": "SAM-" + args.model_type[-1].upper(),
         "method": f"RTN{'+DBAF' if args.use_dbaf else ''}",
         "bits": args.bits,
         "detector": "torchvision-fasterrcnn-r50-fpn",
@@ -172,7 +181,8 @@ def evaluate(args):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--sam-ckpt", default="/home/ubuntu/unifying-ptq/ckpt/sam_vit_b_01ec64.pth")
+    p.add_argument("--model-type", default="vit_b", choices=["vit_b", "vit_l", "vit_h"])
+    p.add_argument("--sam-ckpt", default=None)
     p.add_argument("--bits", type=int, default=4)
     p.add_argument("--use-dbaf", action="store_true")
     p.add_argument("--alpha", type=float, default=0.75)

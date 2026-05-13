@@ -25,14 +25,21 @@ sys.path.insert(0, "/home/ubuntu/unifying-ptq/CompSRT")
 from flatquant.baselines.rtn import _quantize_tensor_uniform, _quantize_per_channel_with_dbaf
 
 
-def load_swinir(scale: int, pretrained: str):
+def load_swinir(scale: int, pretrained: str, variant: str = "auto"):
+    """Load SwinIR. variant='M' (classical, embed=180), 'S' (lightweight, embed=60), or 'auto' (detect)."""
     from basicsr.archs.swinir_arch import SwinIR
-    m = SwinIR(
-        upscale=scale, in_chans=3, img_size=48, window_size=8, img_range=1.,
-        depths=[6, 6, 6, 6, 6, 6], embed_dim=60,
-        num_heads=[6, 6, 6, 6, 6, 6], mlp_ratio=2,
-        upsampler="pixelshuffledirect", resi_connection="1conv",
-    )
+    if variant == "auto":
+        variant = "M" if "_SwinIR-M_" in pretrained else "S"
+    if variant == "M":
+        m = SwinIR(upscale=scale, in_chans=3, img_size=48, window_size=8, img_range=1.,
+                   depths=[6, 6, 6, 6, 6, 6], embed_dim=180,
+                   num_heads=[6, 6, 6, 6, 6, 6], mlp_ratio=2,
+                   upsampler="pixelshuffle", resi_connection="1conv")
+    else:  # S
+        m = SwinIR(upscale=scale, in_chans=3, img_size=64, window_size=8, img_range=1.,
+                   depths=[6, 6, 6, 6], embed_dim=60,
+                   num_heads=[6, 6, 6, 6], mlp_ratio=2,
+                   upsampler="pixelshuffledirect", resi_connection="1conv")
     state = torch.load(pretrained, map_location="cpu", weights_only=False)
     sd = state.get("params", state.get("params_ema", state))
     m.load_state_dict(sd, strict=False)

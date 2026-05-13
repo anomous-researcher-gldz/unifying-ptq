@@ -266,10 +266,44 @@ recover some of that loss.
 | FlatQuant + DBAF + PCSA + **KV-PCSA v2** (per-token × anchor mult) | INT4 asym | **6.977** | **11.154** | S5 v2 calib 2026-05-13 |
 | FlatQuant + DBAF (**no-gate**) + PCSA | INT4 asym | (C1 running) | (C1 running) | calibrating now |
 
-**Key finding (so far):** Going from KV16 (6.96) to INT4-asym KV (6.966) is **essentially free**
-when DBAF+PCSA are on top of FlatQuant. The pure-FlatQuant-without-DBAF-without-PCSA KV4
-ablation is queued to test whether DBAF/PCSA is what makes KV4 free, or whether FlatQuant's
-rotation alone already handles it.
+**Key finding (updated 2026-05-13):** Pure FlatQuant W4A4 KV4 (no DBAF, no PCSA)
+gives 6.964 WikiText / 11.158 C4 — **statistically identical to FlatQuant + DBAF +
+PCSA at 6.966 / 11.143**. So at W4A4 KV4 on LLaMA-3-8B, **DBAF + PCSA contribute
+~zero benefit over well-tuned FlatQuant**. The 0.02 PPL gain seen at W4A4 KV16 in
+the ICML submission does not replicate at KV4. C1 (no-gate FlatQuant+DBAF+PCSA)
+will close the loop: if it also lands at ~6.97, the gate is confirmed inert in
+this regime.
+
+### F2: W4A4 dual-gate sweep on SwinIR-light ×3 (training-free, NEW 2026-05-13)
+
+Tests whether the codebase's gate matters at W4A4 in training-free SR.
+
+| Arm | x3 Set5 PSNR | x3 Urban100 PSNR |
+|---|---|---|
+| W4-only RTN (no act quant, no DBAF) | 26.502 | 21.750 |
+| W4-only RTN + DBAF (no gate, all layers) | 26.187 | 21.598 |
+| **W4A4 RTN no DBAF** | **26.065** | **21.475** |
+| W4A4 DBAF Wforce + Aforce (no gates) | 25.647 | 21.268 |
+| W4A4 DBAF Wgate(0.02) + Aforce | 25.644 | 21.276 |
+| W4A4 DBAF Wforce + Agate(0.02) | 25.655 | 21.272 |
+| **W4A4 DBAF Wgate(0.02) + Agate(0.02) (codebase default)** | 25.652 | 21.279 |
+| W4A4 DBAF Wstrict(0.01) + Astrict(0.01) | 26.065 | 21.480 |
+
+**Findings:**
+1. Adding INT4 activation quant (W4 → W4A4) costs −0.44 dB on Set5, −0.28 dB on
+   Urban100. Activations are the bigger pain at W4A4.
+2. **DBAF hurts in every gate configuration on x3 W4A4** (~−0.4 dB Set5, ~−0.2 dB
+   Urban100), with one exception: strict gate (0.01) on both sides essentially
+   disables DBAF, recovering the no-DBAF W4A4 baseline.
+3. The codebase-default gate (0.02) on both sides gives same PSNR as no-gate
+   force-mode — the gate doesn't materially gate anything at this threshold for x3.
+4. The "DBAF compounds depth-error" pattern from the W-only training-free analysis
+   carries over to W4A4. The gate doesn't save it on x3 — strict-gate just turns
+   DBAF off.
+
+Output: `results/F2-swinir-x3-dual-gate/*.json`.
+F2 x2 + x4 sweep is running to confirm whether this pattern is x3-specific or
+generalizes.
 
 **KV-PCSA v1 was architecturally wrong:** `AnchorAwareActivationQuantizer.fake_quant` used
 *one scalar per anchor* broadcast over [B, T, D], replacing FlatQuant's per-token scales.

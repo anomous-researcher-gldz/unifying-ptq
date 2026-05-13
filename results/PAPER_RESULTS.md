@@ -119,9 +119,16 @@ Gaussian tensor + controlled outliers. DBAF MSE reduction vs outlier fraction:
 Eval: `results/S4-dbaf-weak/synthetic/study.json`
 Figure: `paper/emnlp2026/figures/synthetic_outlier_gain.pdf`
 
-### Per-layer outlier-vs-gain correlation (S4.6) — pending
+### Per-layer outlier-vs-gain correlation (S4.6) ✓ done
 
-LLaMA-3-8B; compute per-Linear-layer outlier fraction + DBAF MSE reduction; expect strong positive correlation.
+LLaMA-3-8B, 224+ Linear layers analyzed:
+- **Pearson r = 0.561** between per-layer outlier fraction and DBAF MSE reduction
+- Linear fit slope ≈ 1005 (positive)
+- 100% of layers show positive DBAF gain (11–26% MSE reduction range)
+- Outlier fractions in real LLaMA: ~0.3–1.8% (matches the empirical regime where the synthetic study predicts peak DBAF effectiveness)
+
+Eval: `results/S4-dbaf-weak/per_layer_correlation/llama3-8b.json`
+Figure: `paper/emnlp2026/figures/per_layer_outlier_correlation.pdf`
 
 ### Matched-T clipping (S4.4 / S10.7) — pending
 

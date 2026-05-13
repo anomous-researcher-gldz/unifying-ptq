@@ -32,36 +32,38 @@ class _GPTQ:
         self.n = new_n
 
     def quantize(self, bits: int, dbaf_alpha: float | None = None):
+        """GPTQ-style column sweep with per-row (per-output-channel) scales.
+
+        Per-row scale is set ONCE from the original weight magnitude per row,
+        used for all column-wise updates. This is the standard LLM quantization
+        granularity and avoids the per-tensor scale collapse seen on large matrices.
+        """
         W = self.W.clone()
         if dbaf_alpha is not None:
             W, T, a = _dbaf_fold(W, alpha=dbaf_alpha)
+        # Per-row scales [out, 1] from folded weights
+        qmax = 2 ** (bits - 1) - 1
+        row_scale = W.abs().amax(dim=1, keepdim=True) / qmax
+        row_scale = row_scale.clamp(min=1e-9)
         # Damp Hessian for stability
         damp = 0.01 * torch.mean(torch.diag(self.H))
         diag = torch.arange(self.H.shape[0], device=self.dev)
         H = self.H.clone()
         H[diag, diag] += damp
-        # Solve column-by-column
         try:
             L = torch.linalg.cholesky(H)
             Hinv = torch.cholesky_inverse(L)
         except RuntimeError:
             Hinv = torch.linalg.pinv(H)
         Q = torch.zeros_like(W)
-        Err = torch.zeros_like(W)
         for col in range(W.shape[1]):
             d = Hinv[col, col]
-            w_col = W[:, col]
-            # Per-tensor scale on the column band so quantization tracks dynamic range
-            qmax = 2 ** (bits - 1) - 1
-            scale = w_col.abs().max() / qmax
-            if scale == 0:
-                Q[:, col] = w_col
-                continue
-            q = torch.round(w_col / scale).clamp(-qmax, qmax)
-            q_dq = q * scale
-            err = (w_col - q_dq) / d
+            w_col = W[:, col]  # [out]
+            # Per-row scale already computed
+            q = torch.round(w_col / row_scale.squeeze(1)).clamp(-qmax, qmax)
+            q_dq = q * row_scale.squeeze(1)
+            err = (w_col - q_dq) / d  # [out]
             Q[:, col] = q_dq
-            Err[:, col] = err
             if col + 1 < W.shape[1]:
                 W[:, col + 1:] -= err.unsqueeze(1) * Hinv[col, col + 1:].unsqueeze(0)
         if dbaf_alpha is not None:

@@ -1,0 +1,1891 @@
+{
+  "summary": {
+    "scale": 3,
+    "n_layers": 103,
+    "weight_pct_dbaf_gated": 0.970873786407767,
+    "weight_mean_kurt": 4.196284106634195,
+    "weight_median_kurt": 3.5237789154052734,
+    "weight_max_kurt": 32.81340789794922,
+    "weight_mean_frac3": 0.006653365534413787,
+    "weight_mean_frac4": 0.0011362985646221064,
+    "act_n_layers_observed": 103,
+    "act_pct_dbaf_gated": 0.36893203883495146,
+    "act_mean_kurt": 8.803766318895285,
+    "act_median_kurt": 6.973848819732666,
+    "act_max_kurt": 37.52490234375,
+    "act_mean_frac3": 0.019096504731863303,
+    "act_mean_frac4": 0.006674077642123097
+  },
+  "weights": [
+    {
+      "name": "conv_first",
+      "type": "Conv2d",
+      "shape": [
+        60,
+        3,
+        3,
+        3
+      ],
+      "kurt": 5.693079948425293,
+      "frac3": 0.015432099811732769,
+      "frac4": 0.006172839552164078,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.0.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 5.9073333740234375,
+      "frac3": 0.015462962910532951,
+      "frac4": 0.0032407406251877546,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.0.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.2173502445220947,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.0.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 4.027597904205322,
+      "frac3": 0.006666666828095913,
+      "frac4": 0.0012499999720603228,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.0.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 8.140387535095215,
+      "frac3": 0.012500000186264515,
+      "frac4": 0.005138888955116272,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.1.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 4.2591166496276855,
+      "frac3": 0.009259259328246117,
+      "frac4": 0.0009259259095415473,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.1.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.065953493118286,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.1.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.4117701053619385,
+      "frac3": 0.0055555556900799274,
+      "frac4": 0.0006944444612599909,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.1.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 5.742201805114746,
+      "frac3": 0.008055555634200573,
+      "frac4": 0.003194444580003619,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.2.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.7151458263397217,
+      "frac3": 0.007407407276332378,
+      "frac4": 0.000370370369637385,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.2.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.0841965675354004,
+      "frac3": 0.0033333334140479565,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.2.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.929647922515869,
+      "frac3": 0.0055555556900799274,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.2.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 5.29899787902832,
+      "frac3": 0.006805555894970894,
+      "frac4": 0.0026388890109956264,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.3.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.7122442722320557,
+      "frac3": 0.006851851940155029,
+      "frac4": 0.0010185184655711055,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.3.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.1472225189208984,
+      "frac3": 0.003611111082136631,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.3.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.2021782398223877,
+      "frac3": 0.004305555485188961,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.3.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.2617011070251465,
+      "frac3": 0.0040277778171002865,
+      "frac4": 0.00041666667675599456,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.4.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.4199681282043457,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.4.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.225309371948242,
+      "frac3": 0.0047222222201526165,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.4.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.151151657104492,
+      "frac3": 0.003750000149011612,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.4.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.069828987121582,
+      "frac3": 0.002222222276031971,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.5.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.530691623687744,
+      "frac3": 0.004999999888241291,
+      "frac4": 0.0006481481250375509,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.5.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 2.94600772857666,
+      "frac3": 0.0024999999441206455,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": false
+    },
+    {
+      "name": "layers.0.residual_group.blocks.5.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.2825207710266113,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.residual_group.blocks.5.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.3225553035736084,
+      "frac3": 0.0047222222201526165,
+      "frac4": 0.0006944444612599909,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.0.conv",
+      "type": "Conv2d",
+      "shape": [
+        60,
+        60,
+        3,
+        3
+      ],
+      "kurt": 7.299360752105713,
+      "frac3": 0.01805555634200573,
+      "frac4": 0.00592592591419816,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.0.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 4.032414436340332,
+      "frac3": 0.007407407276332378,
+      "frac4": 0.0012962962500751019,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.0.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.27156138420105,
+      "frac3": 0.003888888983055949,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.0.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.3342995643615723,
+      "frac3": 0.0047222222201526165,
+      "frac4": 0.00041666667675599456,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.0.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.5237789154052734,
+      "frac3": 0.004861111287027597,
+      "frac4": 0.0006944444612599909,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.1.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.789008140563965,
+      "frac3": 0.006388888694345951,
+      "frac4": 0.0006481481250375509,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.1.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.2490687370300293,
+      "frac3": 0.005277778021991253,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.1.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.309471607208252,
+      "frac3": 0.005138888955116272,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.1.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.4860315322875977,
+      "frac3": 0.0055555556900799274,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.2.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.7672207355499268,
+      "frac3": 0.007129629608243704,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.2.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.7519590854644775,
+      "frac3": 0.007500000298023224,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.2.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.3945250511169434,
+      "frac3": 0.005694444756954908,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.2.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.5443613529205322,
+      "frac3": 0.0054166666232049465,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.3.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.7808568477630615,
+      "frac3": 0.007037037052214146,
+      "frac4": 0.00074074073927477,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.3.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.19572377204895,
+      "frac3": 0.004444444552063942,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.3.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.1822164058685303,
+      "frac3": 0.0034722222480922937,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.3.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.1960439682006836,
+      "frac3": 0.004305555485188961,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.4.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.5067715644836426,
+      "frac3": 0.005833333358168602,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.4.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 2.9957542419433594,
+      "frac3": 0.0027777778450399637,
+      "frac4": 0.0,
+      "dbaf_gate": false
+    },
+    {
+      "name": "layers.1.residual_group.blocks.4.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.272512674331665,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.00041666667675599456,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.4.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.3111603260040283,
+      "frac3": 0.0055555556900799274,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.5.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.401231288909912,
+      "frac3": 0.004444444552063942,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.5.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.174443483352661,
+      "frac3": 0.003888888983055949,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.5.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.112696409225464,
+      "frac3": 0.003194444580003619,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.residual_group.blocks.5.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.266342878341675,
+      "frac3": 0.004305555485188961,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.1.conv",
+      "type": "Conv2d",
+      "shape": [
+        60,
+        60,
+        3,
+        3
+      ],
+      "kurt": 6.463866233825684,
+      "frac3": 0.015339505858719349,
+      "frac4": 0.004598765634000301,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.0.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.910881519317627,
+      "frac3": 0.007592592388391495,
+      "frac4": 0.0011111111380159855,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.0.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.3508739471435547,
+      "frac3": 0.0047222222201526165,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.0.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.6647250652313232,
+      "frac3": 0.0054166666232049465,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.0.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 4.702568054199219,
+      "frac3": 0.009722222574055195,
+      "frac4": 0.0026388890109956264,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.1.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.726130247116089,
+      "frac3": 0.007407407276332378,
+      "frac4": 0.00046296295477077365,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.1.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.188352108001709,
+      "frac3": 0.005277778021991253,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.1.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.358059883117676,
+      "frac3": 0.005138888955116272,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.1.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 4.255857467651367,
+      "frac3": 0.008055555634200573,
+      "frac4": 0.0019444444915279746,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.2.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.6921937465667725,
+      "frac3": 0.007777777966111898,
+      "frac4": 0.00046296295477077365,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.2.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.1053435802459717,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.2.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.261509418487549,
+      "frac3": 0.004583333618938923,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.2.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.785834789276123,
+      "frac3": 0.006388889160007238,
+      "frac4": 0.0011111111380159855,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.3.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.74682354927063,
+      "frac3": 0.00731481472030282,
+      "frac4": 0.0009259259095415473,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.3.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.0371999740600586,
+      "frac3": 0.003055555745959282,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.3.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.2578835487365723,
+      "frac3": 0.004583333618938923,
+      "frac4": 0.00013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.3.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 4.084196090698242,
+      "frac3": 0.008194444701075554,
+      "frac4": 0.0019444444915279746,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.4.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.808408498764038,
+      "frac3": 0.007407407276332378,
+      "frac4": 0.0009259259095415473,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.4.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.1575212478637695,
+      "frac3": 0.005277778021991253,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.4.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.3143701553344727,
+      "frac3": 0.004999999888241291,
+      "frac4": 0.0006944444612599909,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.4.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 6.105069637298584,
+      "frac3": 0.008055555634200573,
+      "frac4": 0.002222222276031971,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.5.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.7845261096954346,
+      "frac3": 0.007037037052214146,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.5.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.3729500770568848,
+      "frac3": 0.003888888983055949,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.5.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.081766128540039,
+      "frac3": 0.004166666883975267,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.residual_group.blocks.5.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.4456627368927,
+      "frac3": 0.004861111287027597,
+      "frac4": 0.0006944444612599909,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.2.conv",
+      "type": "Conv2d",
+      "shape": [
+        60,
+        60,
+        3,
+        3
+      ],
+      "kurt": 6.553390026092529,
+      "frac3": 0.015246913768351078,
+      "frac4": 0.0047530862502753735,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.0.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.9079582691192627,
+      "frac3": 0.006759259384125471,
+      "frac4": 0.0012962962500751019,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.0.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.1535162925720215,
+      "frac3": 0.003611111082136631,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.0.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 4.4751973152160645,
+      "frac3": 0.0062500000931322575,
+      "frac4": 0.0013888889225199819,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.0.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 8.378508567810059,
+      "frac3": 0.013333333656191826,
+      "frac4": 0.0047222222201526165,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.1.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.9254071712493896,
+      "frac3": 0.007777777966111898,
+      "frac4": 0.0008333333535119891,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.1.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.6432666778564453,
+      "frac3": 0.007777777966111898,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.1.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.499459743499756,
+      "frac3": 0.004305555485188961,
+      "frac4": 0.0006944444612599909,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.1.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 5.815586566925049,
+      "frac3": 0.013333333656191826,
+      "frac4": 0.002916666679084301,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.2.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 4.073617458343506,
+      "frac3": 0.007777777966111898,
+      "frac4": 0.0012962962500751019,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.2.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.270857572555542,
+      "frac3": 0.004444444552063942,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.2.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.436689615249634,
+      "frac3": 0.004861111287027597,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.2.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 4.584629058837891,
+      "frac3": 0.009305555373430252,
+      "frac4": 0.0019444444915279746,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.3.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.9604268074035645,
+      "frac3": 0.008703703992068768,
+      "frac4": 0.00074074073927477,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.3.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.698791980743408,
+      "frac3": 0.007500000298023224,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.3.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.3814585208892822,
+      "frac3": 0.0047222222201526165,
+      "frac4": 0.0005555555690079927,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.3.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.877322196960449,
+      "frac3": 0.006527777761220932,
+      "frac4": 0.0009722222457639873,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.4.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 4.072446346282959,
+      "frac3": 0.008055555634200573,
+      "frac4": 0.0012037036940455437,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.4.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.3585615158081055,
+      "frac3": 0.004444444552063942,
+      "frac4": 0.00027777778450399637,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.4.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 3.2887284755706787,
+      "frac3": 0.004444444552063942,
+      "frac4": 0.00041666667675599456,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.4.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 3.9827311038970947,
+      "frac3": 0.0062500000931322575,
+      "frac4": 0.0016666667070239782,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.5.attn.qkv",
+      "type": "Linear",
+      "shape": [
+        180,
+        60
+      ],
+      "kurt": 3.8665122985839844,
+      "frac3": 0.0061111110262572765,
+      "frac4": 0.0009259259095415473,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.5.attn.proj",
+      "type": "Linear",
+      "shape": [
+        60,
+        60
+      ],
+      "kurt": 3.4447267055511475,
+      "frac3": 0.005833333358168602,
+      "frac4": 0.0,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.5.mlp.fc1",
+      "type": "Linear",
+      "shape": [
+        120,
+        60
+      ],
+      "kurt": 4.049410820007324,
+      "frac3": 0.0054166666232049465,
+      "frac4": 0.0012499999720603228,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.residual_group.blocks.5.mlp.fc2",
+      "type": "Linear",
+      "shape": [
+        60,
+        120
+      ],
+      "kurt": 4.438562870025635,
+      "frac3": 0.007222222164273262,
+      "frac4": 0.0023611111100763083,
+      "dbaf_gate": true
+    },
+    {
+      "name": "layers.3.conv",
+      "type": "Conv2d",
+      "shape": [
+        60,
+        60,
+        3,
+        3
+      ],
+      "kurt": 32.81340789794922,
+      "frac3": 0.019969135522842407,
+      "frac4": 0.007407407276332378,
+      "dbaf_gate": false
+    },
+    {
+      "name": "conv_after_body",
+      "type": "Conv2d",
+      "shape": [
+        60,
+        60,
+        3,
+        3
+      ],
+      "kurt": 5.6418375968933105,
+      "frac3": 0.01299382746219635,
+      "frac4": 0.0034876542631536722,
+      "dbaf_gate": true
+    },
+    {
+      "name": "upsample.0",
+      "type": "Conv2d",
+      "shape": [
+        27,
+        60,
+        3,
+        3
+      ],
+      "kurt": 7.048705577850342,
+      "frac3": 0.01700960285961628,
+      "frac4": 0.006035665050148964,
+      "dbaf_gate": true
+    }
+  ],
+  "activations": {
+    "conv_first": {
+      "kurt": 1.918618083000183,
+      "frac3": 0.0,
+      "frac4": 0.0,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.0.attn.qkv": {
+      "kurt": 9.520295143127441,
+      "frac3": 0.008395000360906124,
+      "frac4": 0.006352500058710575,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.0.attn.proj": {
+      "kurt": 5.096775054931641,
+      "frac3": 0.012952500022947788,
+      "frac4": 0.001752499956637621,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.0.mlp.fc1": {
+      "kurt": 4.446390628814697,
+      "frac3": 0.013602499850094318,
+      "frac4": 0.0007350000087171793,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.0.mlp.fc2": {
+      "kurt": 34.57179641723633,
+      "frac3": 0.01871749944984913,
+      "frac4": 0.012980000115931034,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.1.attn.qkv": {
+      "kurt": 3.753269910812378,
+      "frac3": 0.007617500144988298,
+      "frac4": 0.000699999975040555,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.1.attn.proj": {
+      "kurt": 4.964290142059326,
+      "frac3": 0.012137499637901783,
+      "frac4": 0.0027000000700354576,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.1.mlp.fc1": {
+      "kurt": 6.235526084899902,
+      "frac3": 0.0204050000756979,
+      "frac4": 0.0061924997717142105,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.1.mlp.fc2": {
+      "kurt": 7.456686973571777,
+      "frac3": 0.017559999600052834,
+      "frac4": 0.005530000198632479,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.2.attn.qkv": {
+      "kurt": 3.8606438636779785,
+      "frac3": 0.009034999646246433,
+      "frac4": 0.0003000000142492354,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.2.attn.proj": {
+      "kurt": 4.428430557250977,
+      "frac3": 0.010357500053942204,
+      "frac4": 0.001262499950826168,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.2.mlp.fc1": {
+      "kurt": 8.434006690979004,
+      "frac3": 0.015530000440776348,
+      "frac4": 0.0068025002256035805,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.2.mlp.fc2": {
+      "kurt": 8.5518798828125,
+      "frac3": 0.022607499733567238,
+      "frac4": 0.007442499976605177,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.3.attn.qkv": {
+      "kurt": 5.542191982269287,
+      "frac3": 0.010722500272095203,
+      "frac4": 0.005009999964386225,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.3.attn.proj": {
+      "kurt": 4.379997730255127,
+      "frac3": 0.009669999592006207,
+      "frac4": 0.002044999971985817,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.3.mlp.fc1": {
+      "kurt": 7.368744850158691,
+      "frac3": 0.019449999555945396,
+      "frac4": 0.0065299998968839645,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.3.mlp.fc2": {
+      "kurt": 20.637670516967773,
+      "frac3": 0.021197499707341194,
+      "frac4": 0.009440000168979168,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.4.attn.qkv": {
+      "kurt": 3.6445353031158447,
+      "frac3": 0.008027499541640282,
+      "frac4": 0.0002924999862443656,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.4.attn.proj": {
+      "kurt": 3.756861925125122,
+      "frac3": 0.005667500197887421,
+      "frac4": 0.00120749999769032,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.4.mlp.fc1": {
+      "kurt": 5.705921649932861,
+      "frac3": 0.01776750013232231,
+      "frac4": 0.004377500154078007,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.4.mlp.fc2": {
+      "kurt": 13.337321281433105,
+      "frac3": 0.024664999917149544,
+      "frac4": 0.011169999837875366,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.5.attn.qkv": {
+      "kurt": 5.422397613525391,
+      "frac3": 0.013547499664127827,
+      "frac4": 0.00535999983549118,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.5.attn.proj": {
+      "kurt": 3.2975568771362305,
+      "frac3": 0.0050050001591444016,
+      "frac4": 0.00029749999521300197,
+      "dbaf_gate": true
+    },
+    "layers.0.residual_group.blocks.5.mlp.fc1": {
+      "kurt": 7.518849849700928,
+      "frac3": 0.01749500073492527,
+      "frac4": 0.009229999966919422,
+      "dbaf_gate": false
+    },
+    "layers.0.residual_group.blocks.5.mlp.fc2": {
+      "kurt": 13.736796379089355,
+      "frac3": 0.026510000228881836,
+      "frac4": 0.012284999713301659,
+      "dbaf_gate": false
+    },
+    "layers.0.conv": {
+      "kurt": 6.724794864654541,
+      "frac3": 0.01872749999165535,
+      "frac4": 0.0062500000931322575,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.0.attn.qkv": {
+      "kurt": 6.80693244934082,
+      "frac3": 0.018207499757409096,
+      "frac4": 0.008174999617040157,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.0.attn.proj": {
+      "kurt": 4.5653910636901855,
+      "frac3": 0.012419999577105045,
+      "frac4": 0.0012474999530240893,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.0.mlp.fc1": {
+      "kurt": 5.464489459991455,
+      "frac3": 0.021254999563097954,
+      "frac4": 0.0014474999625235796,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.0.mlp.fc2": {
+      "kurt": 12.542750358581543,
+      "frac3": 0.024482499808073044,
+      "frac4": 0.010660000145435333,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.1.attn.qkv": {
+      "kurt": 4.887941360473633,
+      "frac3": 0.012360000051558018,
+      "frac4": 0.002524999901652336,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.1.attn.proj": {
+      "kurt": 4.063539505004883,
+      "frac3": 0.008807499893009663,
+      "frac4": 0.0012324999552220106,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.1.mlp.fc1": {
+      "kurt": 6.885983943939209,
+      "frac3": 0.02300499938428402,
+      "frac4": 0.006680000107735395,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.1.mlp.fc2": {
+      "kurt": 13.069957733154297,
+      "frac3": 0.025082500651478767,
+      "frac4": 0.01038500014692545,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.2.attn.qkv": {
+      "kurt": 5.574751853942871,
+      "frac3": 0.015127499587833881,
+      "frac4": 0.003312499960884452,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.2.attn.proj": {
+      "kurt": 4.812641143798828,
+      "frac3": 0.011020000092685223,
+      "frac4": 0.0028099999763071537,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.2.mlp.fc1": {
+      "kurt": 6.86217737197876,
+      "frac3": 0.023845000192523003,
+      "frac4": 0.0063275001011788845,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.2.mlp.fc2": {
+      "kurt": 11.67377758026123,
+      "frac3": 0.023737499490380287,
+      "frac4": 0.010089999996125698,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.3.attn.qkv": {
+      "kurt": 5.5826544761657715,
+      "frac3": 0.017555000260472298,
+      "frac4": 0.0031675000209361315,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.3.attn.proj": {
+      "kurt": 4.290204048156738,
+      "frac3": 0.011584999971091747,
+      "frac4": 0.0011475000064820051,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.3.mlp.fc1": {
+      "kurt": 7.203036308288574,
+      "frac3": 0.022152500227093697,
+      "frac4": 0.007892499677836895,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.3.mlp.fc2": {
+      "kurt": 12.248289108276367,
+      "frac3": 0.023159999400377274,
+      "frac4": 0.009030000306665897,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.4.attn.qkv": {
+      "kurt": 5.425926685333252,
+      "frac3": 0.017954999580979347,
+      "frac4": 0.0029575000517070293,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.4.attn.proj": {
+      "kurt": 3.9554102420806885,
+      "frac3": 0.008092500269412994,
+      "frac4": 0.0009025000035762787,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.4.mlp.fc1": {
+      "kurt": 7.317600727081299,
+      "frac3": 0.02245499938726425,
+      "frac4": 0.008364999666810036,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.4.mlp.fc2": {
+      "kurt": 10.956648826599121,
+      "frac3": 0.02352749928832054,
+      "frac4": 0.00906750001013279,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.5.attn.qkv": {
+      "kurt": 6.014534950256348,
+      "frac3": 0.020307499915361404,
+      "frac4": 0.004592500161379576,
+      "dbaf_gate": false
+    },
+    "layers.1.residual_group.blocks.5.attn.proj": {
+      "kurt": 4.338851451873779,
+      "frac3": 0.011950000189244747,
+      "frac4": 0.0008425000123679638,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.5.mlp.fc1": {
+      "kurt": 4.2378621101379395,
+      "frac3": 0.00947249960154295,
+      "frac4": 0.0018774999771267176,
+      "dbaf_gate": true
+    },
+    "layers.1.residual_group.blocks.5.mlp.fc2": {
+      "kurt": 8.994284629821777,
+      "frac3": 0.024882499128580093,
+      "frac4": 0.009087500162422657,
+      "dbaf_gate": false
+    },
+    "layers.1.conv": {
+      "kurt": 4.394256114959717,
+      "frac3": 0.009715000167489052,
+      "frac4": 0.0018400000408291817,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.0.attn.qkv": {
+      "kurt": 5.782207489013672,
+      "frac3": 0.01665000058710575,
+      "frac4": 0.005837500095367432,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.0.attn.proj": {
+      "kurt": 5.629899501800537,
+      "frac3": 0.017602499574422836,
+      "frac4": 0.003594999900087714,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.0.mlp.fc1": {
+      "kurt": 13.151510238647461,
+      "frac3": 0.01882999949157238,
+      "frac4": 0.01378250028938055,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.0.mlp.fc2": {
+      "kurt": 15.996100425720215,
+      "frac3": 0.023569999262690544,
+      "frac4": 0.010359999723732471,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.1.attn.qkv": {
+      "kurt": 7.029625415802002,
+      "frac3": 0.019112499430775642,
+      "frac4": 0.00925000011920929,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.1.attn.proj": {
+      "kurt": 4.567701816558838,
+      "frac3": 0.012557500042021275,
+      "frac4": 0.0002500000118743628,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.1.mlp.fc1": {
+      "kurt": 11.849270820617676,
+      "frac3": 0.018319999799132347,
+      "frac4": 0.013290000148117542,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.1.mlp.fc2": {
+      "kurt": 13.324551582336426,
+      "frac3": 0.023057499900460243,
+      "frac4": 0.009650000371038914,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.2.attn.qkv": {
+      "kurt": 7.751285076141357,
+      "frac3": 0.01911499910056591,
+      "frac4": 0.010514999739825726,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.2.attn.proj": {
+      "kurt": 4.449920177459717,
+      "frac3": 0.011062500067055225,
+      "frac4": 0.0008924999856390059,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.2.mlp.fc1": {
+      "kurt": 12.750894546508789,
+      "frac3": 0.019500000402331352,
+      "frac4": 0.013302500359714031,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.2.mlp.fc2": {
+      "kurt": 11.64149284362793,
+      "frac3": 0.023672500625252724,
+      "frac4": 0.008557500317692757,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.3.attn.qkv": {
+      "kurt": 8.400944709777832,
+      "frac3": 0.020150000229477882,
+      "frac4": 0.011044999584555626,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.3.attn.proj": {
+      "kurt": 3.2779102325439453,
+      "frac3": 0.0035874999593943357,
+      "frac4": 0.00024500000290572643,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.3.mlp.fc1": {
+      "kurt": 13.483329772949219,
+      "frac3": 0.018357500433921814,
+      "frac4": 0.013847500085830688,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.3.mlp.fc2": {
+      "kurt": 11.18423843383789,
+      "frac3": 0.02488750033080578,
+      "frac4": 0.009669999592006207,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.4.attn.qkv": {
+      "kurt": 7.010166645050049,
+      "frac3": 0.019657500088214874,
+      "frac4": 0.00833749957382679,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.4.attn.proj": {
+      "kurt": 3.7743043899536133,
+      "frac3": 0.007217499893158674,
+      "frac4": 0.00048749998677521944,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.4.mlp.fc1": {
+      "kurt": 15.052631378173828,
+      "frac3": 0.01819000020623207,
+      "frac4": 0.014162500388920307,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.4.mlp.fc2": {
+      "kurt": 11.332610130310059,
+      "frac3": 0.02143999934196472,
+      "frac4": 0.00718249985948205,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.5.attn.qkv": {
+      "kurt": 7.62580680847168,
+      "frac3": 0.01924999989569187,
+      "frac4": 0.009692500345408916,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.5.attn.proj": {
+      "kurt": 4.730623245239258,
+      "frac3": 0.012532499618828297,
+      "frac4": 0.001769999973475933,
+      "dbaf_gate": true
+    },
+    "layers.2.residual_group.blocks.5.mlp.fc1": {
+      "kurt": 11.957526206970215,
+      "frac3": 0.018629999831318855,
+      "frac4": 0.013340000063180923,
+      "dbaf_gate": false
+    },
+    "layers.2.residual_group.blocks.5.mlp.fc2": {
+      "kurt": 10.695381164550781,
+      "frac3": 0.019437499344348907,
+      "frac4": 0.006645000074058771,
+      "dbaf_gate": false
+    },
+    "layers.2.conv": {
+      "kurt": 15.857622146606445,
+      "frac3": 0.018585000187158585,
+      "frac4": 0.013992499560117722,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.0.attn.qkv": {
+      "kurt": 5.236437797546387,
+      "frac3": 0.023155000060796738,
+      "frac4": 0.0003825000021606684,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.0.attn.proj": {
+      "kurt": 5.541270732879639,
+      "frac3": 0.008202499710023403,
+      "frac4": 0.0021150000393390656,
+      "dbaf_gate": true
+    },
+    "layers.3.residual_group.blocks.0.mlp.fc1": {
+      "kurt": 7.565672397613525,
+      "frac3": 0.030902499333024025,
+      "frac4": 0.007439999841153622,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.0.mlp.fc2": {
+      "kurt": 13.158313751220703,
+      "frac3": 0.028897499665617943,
+      "frac4": 0.012027500197291374,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.1.attn.qkv": {
+      "kurt": 5.822988986968994,
+      "frac3": 0.02662000060081482,
+      "frac4": 0.0017775000305846334,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.1.attn.proj": {
+      "kurt": 6.508416175842285,
+      "frac3": 0.011542499996721745,
+      "frac4": 0.0031900000758469105,
+      "dbaf_gate": true
+    },
+    "layers.3.residual_group.blocks.1.mlp.fc1": {
+      "kurt": 6.973848819732666,
+      "frac3": 0.03010750003159046,
+      "frac4": 0.0048825000412762165,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.1.mlp.fc2": {
+      "kurt": 18.66225242614746,
+      "frac3": 0.027682499960064888,
+      "frac4": 0.012834999710321426,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.2.attn.qkv": {
+      "kurt": 5.736555099487305,
+      "frac3": 0.02618749998509884,
+      "frac4": 0.0015750000020489097,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.2.attn.proj": {
+      "kurt": 5.922665596008301,
+      "frac3": 0.016015000641345978,
+      "frac4": 0.0037299999967217445,
+      "dbaf_gate": true
+    },
+    "layers.3.residual_group.blocks.2.mlp.fc1": {
+      "kurt": 6.7250189781188965,
+      "frac3": 0.029839999973773956,
+      "frac4": 0.003897499991580844,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.2.mlp.fc2": {
+      "kurt": 24.341503143310547,
+      "frac3": 0.024867499247193336,
+      "frac4": 0.014835000038146973,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.3.attn.qkv": {
+      "kurt": 6.169501781463623,
+      "frac3": 0.028357500210404396,
+      "frac4": 0.0027524998877197504,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.3.attn.proj": {
+      "kurt": 7.414791107177734,
+      "frac3": 0.020947499200701714,
+      "frac4": 0.007972500286996365,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.3.mlp.fc1": {
+      "kurt": 6.858457565307617,
+      "frac3": 0.02991499938070774,
+      "frac4": 0.004517499823123217,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.3.mlp.fc2": {
+      "kurt": 10.472627639770508,
+      "frac3": 0.029592499136924744,
+      "frac4": 0.010987499728798866,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.4.attn.qkv": {
+      "kurt": 5.8514933586120605,
+      "frac3": 0.026362499222159386,
+      "frac4": 0.002107500098645687,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.4.attn.proj": {
+      "kurt": 7.351160049438477,
+      "frac3": 0.025265000760555267,
+      "frac4": 0.0058650001883506775,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.4.mlp.fc1": {
+      "kurt": 8.33338451385498,
+      "frac3": 0.030762499198317528,
+      "frac4": 0.011402499862015247,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.4.mlp.fc2": {
+      "kurt": 16.300823211669922,
+      "frac3": 0.029342500492930412,
+      "frac4": 0.01636499911546707,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.5.attn.qkv": {
+      "kurt": 6.490349769592285,
+      "frac3": 0.029589999467134476,
+      "frac4": 0.003594999900087714,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.5.attn.proj": {
+      "kurt": 9.881689071655273,
+      "frac3": 0.02866250090301037,
+      "frac4": 0.01209999993443489,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.5.mlp.fc1": {
+      "kurt": 7.646947383880615,
+      "frac3": 0.029600000008940697,
+      "frac4": 0.008862500078976154,
+      "dbaf_gate": false
+    },
+    "layers.3.residual_group.blocks.5.mlp.fc2": {
+      "kurt": 9.668253898620605,
+      "frac3": 0.029109999537467957,
+      "frac4": 0.007954999804496765,
+      "dbaf_gate": false
+    },
+    "layers.3.conv": {
+      "kurt": 9.900193214416504,
+      "frac3": 0.033365000039339066,
+      "frac4": 0.0142000000923872,
+      "dbaf_gate": false
+    },
+    "conv_after_body": {
+      "kurt": 29.93871307373047,
+      "frac3": 0.03275499865412712,
+      "frac4": 0.03275499865412712,
+      "dbaf_gate": false
+    },
+    "upsample.0": {
+      "kurt": 37.52490234375,
+      "frac3": 0.024790000170469284,
+      "frac4": 0.015697499737143517,
+      "dbaf_gate": false
+    }
+  }
+}

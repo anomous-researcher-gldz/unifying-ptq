@@ -45,11 +45,19 @@ to Qwen's RMSNorm + GQA differences vs LLaMA). Honest treatment: report
 RTN+DBAF as the cross-model evidence; flag Qwen GPTQ/AWQ-style as
 out-of-scope in Limitations.
 
-### SAM-B + YOLOX W4A4 (training-free)
+### SAM-B + Faster-RCNN W4A4 (training-free, 500 COCO val images)
 
-| Method | mAP | +DBAF mAP | DBAF Δ | Status |
-|---|---|---|---|---|
-| RTN | (pending) | (pending) | — | S4.9 not yet run |
+| Method | mAP | +DBAF mAP | DBAF Δ |
+|---|---|---|---|
+| **RTN (per-channel)** | **0.060** | **0.069** | **+0.009 (+14%)** |
+
+Detector: torchvision Faster-RCNN-R50-FPN (not YOLOX; absolute mAP lower
+than AHCPTQ's 13.4 because of detector + no reconstruction).
+**Relative gain from DBAF is +14% — same magnitude as LLaMA's −14% PPL.**
+
+### SAM-L and SAM-H training-free (in progress)
+
+(running S4_9_sam_all.sh on 500 val images for B/L/H)
 
 ### SwinIR ×2 W4 (training-free)
 

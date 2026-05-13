@@ -118,7 +118,7 @@ docs/modelzoo_statistics.md
 mmdet/.mim
 work_dirs/
 ckpt/
-scripts/
+# scripts/ (we keep launcher scripts in git for reproducibility)
 result/
 
 # Pytorch

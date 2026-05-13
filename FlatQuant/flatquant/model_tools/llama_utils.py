@@ -122,7 +122,11 @@ class FlatQuantLlamaAttention(LlamaAttention):
         self.add_fq_trans()
 
         self._kv_pcsa = getattr(args, 'kv_pcsa', False)
-        _kv_anchors = getattr(args, 'kv_pcsa_anchors', 4) if self._kv_pcsa else None
+        # When q_proj PCSA is also on, its prompt_bank uses 8 anchors. To keep
+        # anchor_ids in bounds for both, KV quantizers must use max(args.kv_pcsa_anchors, 8).
+        self._disable_pcsa = getattr(args, 'disable_pcsa', False)
+        _kv_user = getattr(args, 'kv_pcsa_anchors', 4)
+        _kv_anchors = max(_kv_user, 8) if (self._kv_pcsa and not self._disable_pcsa) else (_kv_user if self._kv_pcsa else None)
 
         if args.q_bits < 16:
             self.q_cache_quantizer = ActivationQuantizer(bits=args.q_bits, \
@@ -147,7 +151,6 @@ class FlatQuantLlamaAttention(LlamaAttention):
                                             sym=not(args.v_asym), lac=args.lac, groupsize=-1, )
 
         # PCSA: anchor-aware quantizer for q_proj
-        self._disable_pcsa = getattr(args, 'disable_pcsa', False)
         # Build prompt_bank if either q_proj PCSA OR KV-PCSA is enabled
         if (not self._disable_pcsa) or self._kv_pcsa:
             n_anchors = max(_kv_anchors or 0, 8 if not self._disable_pcsa else 0)
@@ -265,7 +268,11 @@ class FlatQuantLlamaAttention(LlamaAttention):
                     "with a layer index."
                 )
             kv_seq_len += past_key_value.get_usable_length(kv_seq_len, self.layer_idx)
-        cos, sin = self.rotary_emb(value_states, seq_len=kv_seq_len)
+        # transformers 4.45+ removed `seq_len` kwarg; new signature takes position_ids.
+        try:
+            cos, sin = self.rotary_emb(value_states, seq_len=kv_seq_len)
+        except TypeError:
+            cos, sin = self.rotary_emb(value_states, position_ids)
         query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin, position_ids)
         # ---- here do the quantization ----
         if not self._ori_mode:
@@ -287,11 +294,15 @@ class FlatQuantLlamaAttention(LlamaAttention):
             )
 
         if attention_mask is not None:
-            if attention_mask.size() != (bsz, 1, q_len, kv_seq_len):
+            # transformers 4.45+ may pass a mask one wider than kv_seq_len; trim if so
+            mask = attention_mask
+            if mask.size(-1) != kv_seq_len and mask.size(-1) == kv_seq_len + 1:
+                mask = mask[..., :kv_seq_len]
+            if mask.size() != (bsz, 1, q_len, kv_seq_len):
                 raise ValueError(
-                    f"Attention mask should be of size {(bsz, 1, q_len, kv_seq_len)}, but is {attention_mask.size()}"
+                    f"Attention mask should be of size {(bsz, 1, q_len, kv_seq_len)}, but is {mask.size()}"
                 )
-            attn_weights = attn_weights + attention_mask
+            attn_weights = attn_weights + mask
 
         # upcast attention to fp32
         attn_weights = nn.functional.softmax(attn_weights, dim=-1, dtype=torch.float32).to(query_states.dtype)

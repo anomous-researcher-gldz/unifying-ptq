@@ -1,0 +1,10 @@
+{
+  "model": "SwinIR",
+  "scale": 3,
+  "method": "RTN+DBAF",
+  "bits": 4,
+  "dataset": "Set5_HR",
+  "n_images": 5,
+  "psnr_db": 26.186647957404592,
+  "wallclock_seconds": 0.6818549633026123
+}

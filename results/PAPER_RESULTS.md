@@ -61,11 +61,30 @@ DBAF gain is largest on SAM-B (smallest model, most damaged by W4) and
 smaller on SAM-L/H, consistent with the "DBAF helps most where outliers
 dominate damage" interpretation.
 
-### SwinIR ×2 W4 (training-free)
+### SwinIR-light W4 training-free (no Hadamard, no CompSRT fine-tune)
 
-| Method | PSNR (Set5) | +DBAF PSNR | DBAF Δ | Status |
+PSNR (dB), Set5 (5 images) and Urban100 (100 images), all scales:
+
+| Scale | Dataset | RTN | RTN+DBAF | DBAF Δ |
 |---|---|---|---|---|
-| RTN | (pending) | (pending) | — | S8.4 (= CompSRT-A) not yet run |
+| ×2 | Set5 | 32.61 | 32.76 | **+0.16** |
+| ×2 | Urban100 | 29.18 | 29.25 | **+0.07** |
+| ×3 | Set5 | 26.50 | 26.19 | **−0.31** |
+| ×3 | Urban100 | 21.75 | 21.60 | **−0.15** |
+| ×4 | Set5 | 23.88 | 24.31 | **+0.43** |
+| ×4 | Urban100 | 21.18 | 21.43 | **+0.25** |
+
+**Mixed results.** DBAF helps at ×2 and ×4 across both Set5 and Urban100, but
+slightly hurts at ×3. Average across all 6 cells: +0.075 dB. Excluding ×3:
++0.228 dB. Hypothesis: α=0.95 (selected for SwinIR-light) is not optimal for
+the ×3 weight distribution, possibly due to different outlier fractions in
+the larger upsampling layers. A per-scale α grid (rather than per-architecture
+single α) would likely fix this.
+
+For comparison, the fine-tuned CompSRT+DBAF result (Hadamard rotations +
+DBAF + reconstruction) recovers FP performance at ×2 (38.15 dB = FP).
+The training-free signal here is weaker but in the expected direction
+on 4/6 cells.
 
 ---
 

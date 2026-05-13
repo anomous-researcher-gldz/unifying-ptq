@@ -1,0 +1,10 @@
+{
+  "model": "SwinIR",
+  "scale": 2,
+  "method": "RTN+DBAF",
+  "bits": 4,
+  "dataset": "Urban100_HR",
+  "n_images": 100,
+  "psnr_db": 29.25086133505891,
+  "wallclock_seconds": 98.32399344444275
+}

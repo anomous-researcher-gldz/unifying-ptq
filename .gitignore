@@ -169,3 +169,7 @@ CompSRT/*.jpg
 CompSRT/*.gif
 CompSRT/*.zip
 ruler/
+
+# Upstream repos vendored under root for integration
+OmniQuant/
+2DQuant/

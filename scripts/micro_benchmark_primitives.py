@@ -56,16 +56,25 @@ def _make_hadamard(d: int, device, dtype):
 
 
 def _learned_rotation(d: int, device, dtype):
-    """Random orthogonal d x d matrix (proxy for learned R)."""
-    G = torch.randn(d, d, device=device, dtype=dtype)
+    """Random orthogonal d x d matrix (proxy for learned R).
+
+    QR is unavailable in fp16 on CUDA; compute in fp32 and cast.
+    """
+    G = torch.randn(d, d, device=device, dtype=torch.float32)
     Q, _ = torch.linalg.qr(G)
-    return Q
+    return Q.to(dtype)
 
 
-def _dbaf_fold(x: torch.Tensor, T: float = None, alpha: float = 0.95):
-    """Per-tensor fold; if T is None, use 3*sigma."""
-    sigma = x.std()
-    T = 3.0 * sigma if T is None else T
+def _dbaf_fold(x: torch.Tensor, T: float | None = None, alpha: float = 0.95):
+    """Per-tensor fold.
+
+    In production, T is precomputed at calibration time and stored as a buffer.
+    The micro-benchmark thus uses a precomputed T (passed in) when available,
+    matching the real inference path.  Pass T=None only when actually fitting.
+    """
+    if T is None:
+        sigma = x.std()
+        T = 3.0 * sigma
     sgn = torch.sign(x)
     mask = x.abs() > T
     out = torch.where(mask, sgn * T + alpha * (x - sgn * T), x)
@@ -112,7 +121,8 @@ def _forward(primitive: str, weights: list[torch.Tensor], x: torch.Tensor,
             qw, qx = _fakequant_w4a4(w, x)
             x = torch.nn.functional.linear(qx, qw)
         elif primitive == "dbaf":
-            x, T, alpha = _dbaf_fold(x)
+            # T precomputed at calibration time in production; pass from extra
+            x, T, alpha = _dbaf_fold(x, T=extra.get("T_fixed"))
             qw, qx = _fakequant_w4a4(w, x)
             x = torch.nn.functional.linear(qx, qw)
             x = _dbaf_unfold(x, T, alpha)
@@ -121,7 +131,7 @@ def _forward(primitive: str, weights: list[torch.Tensor], x: torch.Tensor,
             qw, qx = _fakequant_w4a4(w, x)
             x = torch.nn.functional.linear(qx, qw)
         elif primitive == "dbaf_pcsa_tf":
-            x, T, alpha = _dbaf_fold(x)
+            x, T, alpha = _dbaf_fold(x, T=extra.get("T_fixed"))
             x = _pcsa_tf_route(x, extra["anchors"], extra["scales"], extra["desc"])
             qw, qx = _fakequant_w4a4(w, x)
             x = torch.nn.functional.linear(qx, qw)
@@ -147,6 +157,11 @@ def bench_one(primitive: str, d: int, n_blocks: int, seq_len: int,
         extra["anchors"] = torch.randn(K, d, device=device, dtype=dtype)
         extra["scales"] = torch.rand(K, device=device, dtype=dtype) + 0.5
         extra["desc"] = torch.randn(d, device=device, dtype=dtype)
+    if primitive in ("dbaf", "dbaf_pcsa_tf"):
+        # Precompute T_fixed from a single calib forward (matches the production
+        # path where T is stored as a buffer after calibration).
+        with torch.no_grad():
+            extra["T_fixed"] = (3.0 * x0.std()).item()
 
     # Warmup
     for _ in range(n_warmup):

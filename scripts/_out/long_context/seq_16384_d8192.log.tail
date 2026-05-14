@@ -1,0 +1,12 @@
+  hadamard                184.64 ms/forward     11.27 us/token
+  learned_R               190.24 ms/forward     11.61 us/token
+  dbaf                    155.46 ms/forward      9.49 us/token
+  pcsa_tf                 111.28 ms/forward      6.79 us/token
+  dbaf_pcsa_tf            161.29 ms/forward      9.84 us/token
+
+## Ratios
+  Hadamard overhead     : 2.25x  (vs fp16 baseline)
+  DBAF+PCSA-tf overhead : 1.96x  (vs fp16 baseline)
+  Hadamard / DBAF+PCSA-tf wall-clock = 1.14x
+
+  → scripts/_out/long_context/seq_16384_d8192.json

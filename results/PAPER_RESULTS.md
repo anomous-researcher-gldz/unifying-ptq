@@ -495,3 +495,25 @@ decoder-layer input level (skip intermediate Linears).
 
 **SmoothQuant cells**: sweep terminated after AWQ — need a follow-up.
 
+
+### Long-context wall-clock sweep (item 4)
+
+Hadamard / DBAF+PCSA-tf wall-clock ratio on A100, n_blocks=8:
+
+|         |   d=4096 (Llama-3-8B) |   d=8192 (Llama-3-70B) |
+|---------|---|---|
+| seq=4K  | 0.78 (rotation wins) | **1.09 (ours wins)**    |
+| seq=16K | 0.83                 | **1.14**                |
+| seq=32K | 0.84                 | **1.15**                |
+| seq=65K | 0.85                 | **1.17 (advantage grows)** |
+
+Two findings for §4.X cost subsection:
+1. At Llama-3-8B scale (d=4096), cuBLAS matmul is so optimised that
+   rotation has ~20% wall-clock advantage despite the FLOP table predicting
+   the opposite — the advantage is roughly constant across seq length.
+2. At Llama-3-70B+ scale (d=8192+), ours wins wall-clock and the advantage
+   GROWS with sequence length (from 9% at 4K → 17% at 65K).  This is
+   exactly the long-context deployment regime production cares about.
+
+Generator: `scripts/run_long_context_sweep.sh` + `scripts/_out/long_context/`.
+

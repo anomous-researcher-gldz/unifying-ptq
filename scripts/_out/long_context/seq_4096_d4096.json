@@ -1,0 +1,55 @@
+{
+  "config": {
+    "d": 4096,
+    "n_blocks": 8,
+    "seq_len": 4096,
+    "device": "cuda",
+    "dtype": "torch.float16",
+    "n_warmup": 2,
+    "n_iters": 3
+  },
+  "results": [
+    {
+      "primitive": "none",
+      "ms_per_forward": 4.459861665964127,
+      "ms_per_token_us": 1.088833414542023,
+      "n_iters": 3
+    },
+    {
+      "primitive": "fakequant_w4a4",
+      "ms_per_forward": 9.585425005449602,
+      "ms_per_token_us": 2.3401916517210943,
+      "n_iters": 3
+    },
+    {
+      "primitive": "hadamard",
+      "ms_per_forward": 14.26980366037848,
+      "ms_per_token_us": 3.48383878427209,
+      "n_iters": 3
+    },
+    {
+      "primitive": "learned_R",
+      "ms_per_forward": 14.934042662692567,
+      "ms_per_token_us": 3.6460065094464276,
+      "n_iters": 3
+    },
+    {
+      "primitive": "dbaf",
+      "ms_per_forward": 17.056473336803418,
+      "ms_per_token_us": 4.164178060743022,
+      "n_iters": 3
+    },
+    {
+      "primitive": "pcsa_tf",
+      "ms_per_forward": 10.765625668379167,
+      "ms_per_token_us": 2.6283265791941326,
+      "n_iters": 3
+    },
+    {
+      "primitive": "dbaf_pcsa_tf",
+      "ms_per_forward": 18.264157668454573,
+      "ms_per_token_us": 4.459022868275042,
+      "n_iters": 3
+    }
+  ]
+}

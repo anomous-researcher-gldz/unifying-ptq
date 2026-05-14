@@ -17,7 +17,8 @@ def _kmeans(x: torch.Tensor, k: int, n_iter: int = 25) -> torch.Tensor:
     """k-means on [N, D] -> [k, D] centroids. CPU-friendly, no gradients."""
     x = x.detach()
     N, D = x.shape
-    # init from random rows
+    # init from random rows; clamp k if we have fewer descriptors than clusters
+    k = min(k, N)
     idx = torch.randperm(N)[:k]
     centroids = x[idx].clone()
     for _ in range(n_iter):
@@ -64,11 +65,12 @@ def fit_pcsa_tf(
     else:
         raise ValueError(f"acts must be [N,T,D] or [N,D], got {acts.shape}")
     anchors = _kmeans(descs, K)
+    K_actual = anchors.shape[0]  # may be < K if N < K (clamped in _kmeans)
     # route each prompt to its nearest anchor and take max-abs activation
     sims = F.normalize(descs, dim=-1) @ F.normalize(anchors, dim=-1).T
     assign = sims.argmax(dim=-1)  # [N]
-    scales = torch.zeros(K)
-    for j in range(K):
+    scales = torch.zeros(K_actual)
+    for j in range(K_actual):
         mask = (assign == j)
         scales[j] = per_prompt_max[mask].max() if mask.any() else per_prompt_max.max()
     return {"anchors": anchors, "scales": scales}

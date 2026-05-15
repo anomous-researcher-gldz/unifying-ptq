@@ -62,6 +62,9 @@ def _collect_act_scales(model, calibration_data, alpha: float = 0.5):
                 ids = batch["input_ids"].to(device)
             else:
                 continue
+            # Ensure (B, T) — _calib_batch_llm yields 1D rows when iterated.
+            if ids.dim() == 1:
+                ids = ids.unsqueeze(0)
             _ = model(ids)
 
     for h in hooks:
